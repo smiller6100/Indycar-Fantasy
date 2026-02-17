@@ -1,0 +1,19 @@
+// Storage shim for browser localStorage
+window.storage = {
+  get: async (key) => {
+    const val = localStorage.getItem(key);
+    return val ? { value: val } : null;
+  },
+  set: async (key, value) => {
+    localStorage.setItem(key, value);
+    return { value };
+  },
+  delete: async (key) => {
+    localStorage.removeItem(key);
+    return { deleted: true };
+  },
+  list: async (prefix) => {
+    const keys = Object.keys(localStorage).filter(k => !prefix || k.startsWith(prefix));
+    return { keys };
+  }
+};
